@@ -1,0 +1,67 @@
+<h2>Home</h2>
+<table class="ui celled table">
+    <thead>
+        <tr>
+            <th>Enabled</th>
+            <th>Account Name</th>
+            <th>Net Rate AER %</th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: accounts">
+        <tr>
+            <td>
+                 <input type="checkbox" data-bind="checked: isEnabled" />
+            </td>
+            <td>
+                <editable-text params="text: name"></editable-text>
+            </td>
+            <td>
+                <editable-text params="text: netRate"></editable-text>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<table class="ui compact celled definition table">
+    <thead>
+        <tr>
+            <th>Account Name</th>
+            <th>Initial Investment</th>
+            <th>Per Month Investment</th>
+            <th>Number of Months</th>
+            <th>Total Invested</th>
+            <th>Future Value</th>
+            <th>ROI</th>
+            <th>ROI %</th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: enabledInvestments">
+        <tr>
+            <td data-bind="text: name"></td>
+            <td>
+                <editable-text params="text: initial"></editable-text>
+            </td>
+            <td>
+                <editable-text params="text: perMonth"></editable-text>
+            </td>
+            <td>
+                <editable-text params="text: months"></editable-text>
+            </td>
+            <td data-bind="text: totalInvested"></td>
+            <td data-bind="text: futureValue"></td>
+            <td data-bind="text: roi"></td>
+            <td data-bind="text: roiPc"></td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <th>Totals</th>
+            <td data-bind="text: totalInitialInvestment"></td>
+            <td data-bind="text: totalPerMonth"></td>
+            <td></td>
+            <td data-bind="text: totalInvestment"></td>
+            <td data-bind="text: totalFutureValue"></td>
+            <td data-bind="text: totalRoi"></td>
+            <td data-bind="text: totalRoiPc"></td>
+    </tfoot>
+</table>
