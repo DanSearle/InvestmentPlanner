@@ -1,5 +1,6 @@
 import ko from 'knockout';
 import roundTwo from 'app/rounding';
+import { LocalStorage } from './account-model.js';
 
 class InvestmentModel {
     constructor(account, initial, perMonth, months) {
@@ -34,6 +35,14 @@ class InvestmentModel {
         this.roiPc = ko.computed(function() {
             return roundTwo((this.roi()/this.totalInvested())*100);
         }.bind(this));
+
+        this.initial.subscribe(this.save.bind(this));
+        this.perMonth.subscribe(this.save.bind(this)); 
+        this.months.subscribe(this.save.bind(this));
+    }
+    save() {
+        var store = new LocalStorage();
+        store.saveInvestment(this);
     }
 }
 

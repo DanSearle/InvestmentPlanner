@@ -1,25 +1,37 @@
 import ko from 'knockout';
 import homeTemplate from 'text!./home.html';
 import InvestmentModel from './investement-model.js';
-import AccountModel from './account-model.js';
+import { AccountModel, LocalStorage } from './account-model.js';
 import roundTwo from 'app/rounding';
+
 
 class HomeViewModel {
     constructor(route) {
-        this.accounts = ko.observableArray([
-                new AccountModel("Club Lloyds", 4.0),
-                new AccountModel("Easy Saver", 0.05)
-        ]);
+        var store = new LocalStorage();
+        this.accounts = ko.observableArray(store.getAccounts(AccountModel));
         this.enabledAccounts = ko.computed(function() {
             return ko.utils.arrayFilter(this.accounts(), function(account) {
                 return account.isEnabled();
             })
         }, this);
 
-        this.investments = ko.observableArray([
-            new InvestmentModel(this.accounts()[0], 1000.0, 400.0, 12),
-            new InvestmentModel(this.accounts()[1], 1000.0, 400.0, 12)
-        ]);
+        var localInvestements = new Map();
+        this.accounts().forEach(function(account) {
+            var investment = store.getInvestment(account, InvestmentModel);
+            localInvestements.set(account, investment);
+        });
+
+        this.investments = ko.computed(function() {
+            return this.enabledAccounts().map(function(account) {
+                var investment = localInvestements.get(account);
+                if (investment) {
+                    return investment;
+                }
+                var investment = new InvestmentModel(account, 0, 0, 0);
+                localInvestements[account] = investment;
+                return investment;
+            });
+        }, this);
 
         this.enabledInvestments = ko.computed(function() {
             return ko.utils.arrayFilter(this.investments(), function(investment) {
@@ -29,11 +41,14 @@ class HomeViewModel {
 
         var sum = function(property) {
             var invest = this.enabledInvestments();
+            if (invest.length == 0) {
+                return 0;
+            }
             if (invest.length < 2) {
                 return property(invest[0]);
             }
-            return invest.reduce(function(one, two) {
-                return property(one) + property(two);
+            return invest.map(property).reduce(function(one, two) {
+                return one + two;
             });
         }.bind(this);
 

@@ -5,6 +5,7 @@
             <th>Enabled</th>
             <th>Account Name</th>
             <th>Net Rate AER %</th>
+            <th></th>
         </tr>
     </thead>
     <tbody data-bind="foreach: accounts">
@@ -18,6 +19,7 @@
             <td>
                 <editable-text params="text: netRate"></editable-text>
             </td>
+            <td><button data-bind="visible: isDirty, click: save"><i class="icon save"></i> Save</button></td>
         </tr>
     </tbody>
 </table>

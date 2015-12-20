@@ -8,7 +8,7 @@ ko.extenders.numeric = function(target, precision) {
                 roundingMultiplier = Math.pow(10, precision),
                 newValueAsNum = isNaN(newValue) ? 0 : parseFloat(+newValue),
                 valueToWrite = Math.round(newValueAsNum * roundingMultiplier) / roundingMultiplier;
- 
+
             //only write if it changed
             if (valueToWrite !== current) {
                 target(valueToWrite);
