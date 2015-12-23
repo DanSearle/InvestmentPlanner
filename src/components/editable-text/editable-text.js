@@ -4,6 +4,7 @@ import templateMarkup from 'text!./editable-text.html';
 class EditableText {
     constructor(params) {
         this.value = params.text;
+        this.hasError = this.value.hasError;
         this.editing = ko.observable(false);
         this.notEditing = ko.computed(function() {
             return !this.editing();

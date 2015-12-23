@@ -1,12 +1,27 @@
 import ko from 'knockout';
 import roundTwo from 'app/rounding';
-import { LocalStorage } from './account-model.js';
+import LocalStorage from 'app/store';
+
+ko.extenders.validate = function (target, validation) {
+    target.hasError = target.hasError || ko.observable(false);
+
+    function validate(newValue) {
+        target.hasError(validation(newValue));
+    }
+    validate(ko.unwrap(target));
+
+    target.subscribe(validate);
+
+    return target;
+}
 
 class InvestmentModel {
     constructor(account, initial, perMonth, months) {
+        var self = this;
         this.account = account;
         this.name = ko.observable(ko.unwrap(account.name));
         this.initial = ko.observable(initial).extend({numeric: 2});
+        
         this.perMonth = ko.observable(perMonth).extend({numeric: 2});
         this.months = ko.observable(months).extend({numeric: 0});
         this.totalInvested = ko.computed(function() {
@@ -37,8 +52,28 @@ class InvestmentModel {
         }.bind(this));
 
         this.initial.subscribe(this.save.bind(this));
-        this.perMonth.subscribe(this.save.bind(this)); 
+        this.perMonth.subscribe(this.save.bind(this));
         this.months.subscribe(this.save.bind(this));
+
+        var constraints = account.constraints();
+        constraints.map(ko.toJS).forEach(function(constraint) {
+            var validation = function(newValue) {
+                return (newValue < constraint.minValue) || (newValue > constraint.maxValue);
+            };
+
+            if (constraint.field == "Monthly") {
+                self.perMonth = self.perMonth.extend({validate: validation});
+                return;
+            }
+            if (constraint.field == "Initial") {
+                self.initial = self.initial.extend({validate: validation});
+                return;
+            }
+            if (constraint.field == "Total") {
+                self.totalInvested = self.totalInvested.extend({validate: validation});
+                return;
+            }
+        });
     }
     save() {
         var store = new LocalStorage();

@@ -1,0 +1,24 @@
+<ul data-bind="foreach: constraints">
+    <li>
+        <span data-bind="text: field"></span> 
+        Min: <span data-bind="text: minValue"></span> 
+        Max: <span data-bind="text: maxValue"></span> 
+        <button type="submit" data-bind="click: $parent.deleteConstraint" class="btn btn-danger">-</button>
+    </li>
+</ul>
+<form data-bind="submit: addConstraint, visible: canAdd">
+    <div class="row">
+          <div class="col-xs-2">
+              <select data-bind="options: allowedFields, value: field"></select>
+          </div>
+          <div class="col-xs-2">
+                <input type="text" data-bind="textInput: minValue" class="form-control"/>
+          </div>
+          <div class="col-xs-2">
+            <input data-bind="textInput: maxValue" class="form-control"/>
+          </div>
+          <div class="col-xs-2">
+            <button type="submit" class="btn btn-primary">+</button>
+          </div>
+      </div>
+</form>

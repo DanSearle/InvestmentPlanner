@@ -1,6 +1,5 @@
-<h2>Home</h2>
-
-<table class="ui compact celled definition table">
+<h2>Investments</h2>
+<table class="table table-striped">
     <thead>
         <tr>
             <th>Account Name</th>
@@ -13,7 +12,7 @@
             <th>ROI %</th>
         </tr>
     </thead>
-    <tbody data-bind="foreach: enabledInvestments">
+    <tbody data-bind="foreach: investments">
         <tr>
             <td data-bind="text: name"></td>
             <td>
@@ -25,7 +24,11 @@
             <td>
                 <editable-text params="text: months"></editable-text>
             </td>
-            <td data-bind="text: totalInvested"></td>
+            <td>
+                <div class="form-group" data-bind="css: { 'has-error': totalInvested.hasError }">
+                    <span data-bind="text: totalInvested" class="control-label"></span>
+                </div>
+            </td>
             <td data-bind="text: futureValue"></td>
             <td data-bind="text: roi"></td>
             <td data-bind="text: roiPc"></td>

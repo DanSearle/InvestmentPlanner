@@ -1,2 +1,4 @@
-<span data-bind='text: value, visible: notEditing, click: edit'></span>
-<input data-bind='value: value, visible: editing, event: { blur: endEdit }'></input>
+<div class="form-group" data-bind=' css: { "has-error": hasError }'>
+<span class="control-label" data-bind='text: value, visible: notEditing, click: edit'></span>
+<input class="form-control" data-bind='value: value, visible: editing, event: { blur: endEdit }'></input>
+</div>

@@ -12,6 +12,7 @@ var require = {
         "text":                 "bower_modules/requirejs-text/text",
         "semantic-ui":          "bower_modules/semantic-ui/dist/sematic-ui.min",
         "backbone":             "bower_modules/backbone/backbone.min",
+        "jsLPSolver":           "bower_modules/jsLPSolver/prod/solver",
     },
     shim: {
         "bootstrap": { deps: ["jquery"] }

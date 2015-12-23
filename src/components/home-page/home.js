@@ -1,36 +1,30 @@
 import ko from 'knockout';
 import homeTemplate from 'text!./home.html';
 import InvestmentModel from './investement-model.js';
-import { AccountModel, LocalStorage } from './account-model.js';
+import AccountModel from './account-model.js';
 import roundTwo from 'app/rounding';
+import LocalStorage from 'app/store';
 
 
 class HomeViewModel {
     constructor(route) {
         var store = new LocalStorage();
-        this.accounts = ko.observableArray(store.getAccounts(AccountModel));
+
+        this.newAccount = {
+            name: ko.observable(),
+            netRate: ko.observable(0).extend({numeric: 2}),
+        };
+        var accountsAndInvestments = ko.observableArray(store.getAccountsAndInvestments(AccountModel, InvestmentModel));
+        this.accounts = ko.observableArray([]);
+        this.investments = ko.observableArray([]);
+        accountsAndInvestments().forEach(function(accountAndInvestment) {
+            this.accounts.push(accountAndInvestment.account);
+            this.investments.push(accountAndInvestment.investment);
+        }.bind(this));
         this.enabledAccounts = ko.computed(function() {
             return ko.utils.arrayFilter(this.accounts(), function(account) {
                 return account.isEnabled();
             })
-        }, this);
-
-        var localInvestements = new Map();
-        this.accounts().forEach(function(account) {
-            var investment = store.getInvestment(account, InvestmentModel);
-            localInvestements.set(account, investment);
-        });
-
-        this.investments = ko.computed(function() {
-            return this.enabledAccounts().map(function(account) {
-                var investment = localInvestements.get(account);
-                if (investment) {
-                    return investment;
-                }
-                var investment = new InvestmentModel(account, 0, 0, 0);
-                localInvestements[account] = investment;
-                return investment;
-            });
         }, this);
 
         this.enabledInvestments = ko.computed(function() {
@@ -41,7 +35,7 @@ class HomeViewModel {
 
         var sum = function(property) {
             var invest = this.enabledInvestments();
-            if (invest.length == 0) {
+            if (invest == undefined || invest.length == 0) {
                 return 0;
             }
             if (invest.length < 2) {
@@ -80,7 +74,11 @@ class HomeViewModel {
         this.totalRoiPc = ko.computed(function() {
             return roundTwo((this.totalRoi()/this.totalInvestment())*100);
         }.bind(this));
+
+        this.deleteAccount = this.deleteAccount.bind(this);
     }
+
+
 }
 
 export default { viewModel: HomeViewModel, template: homeTemplate };

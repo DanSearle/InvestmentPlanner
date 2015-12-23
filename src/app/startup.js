@@ -16,6 +16,12 @@ ko.components.register('about-page', {
 
 ko.components.register('editable-text', { require: 'components/editable-text/editable-text' });
 
+ko.components.register('accounts', { require: 'components/accounts/accounts' });
+
+ko.components.register('investments', { require: 'components/investments/investments' });
+
+ko.components.register('constraints', { require: 'components/constraints/constraints' });
+
 // [Scaffolded component registrations will be inserted here. To retain this feature, don't remove this comment.]
 
 // Start the application

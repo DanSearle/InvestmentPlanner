@@ -1,0 +1,47 @@
+<h2>Accounts</h2>
+<table class="table table-condensed table-striped">
+    <thead>
+        <tr>
+            <th>Enabled</th>
+            <th>Account Name</th>
+            <th>Net Rate AER %</th>
+            <th>Constraints</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: accounts">
+        <tr>
+            <td>
+                 <input type="checkbox" data-bind="checked: isEnabled" />
+            </td>
+            <td>
+                <editable-text params="text: name"></editable-text>
+            </td>
+            <td>
+                <editable-text params="text: netRate"></editable-text>
+            </td>
+            <td>
+                <constraints params="constraints: constraints"></constraints>
+            </td>
+            <td>
+                <button class="btn btn-primary" data-bind="visible: isDirty, click: save"><i class="icon save"></i> Save</button>
+                <button class="btn btn-danger" data-bind="click: $parent.deleteAccount"><i class="icon delete"></i> Delete</button>
+            </td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td></td>
+            <td>
+                <input data-bind="value: newAccount.name" class="form-control"></input>
+            </td>
+            <td>
+                <input data-bind="value: newAccount.netRate" class="form-control"></input>
+            </td>
+            <td></td>
+            <td>
+                <button class="btn btn-primary" data-bind="click: addAccount"><i class="icon add"></i> Add</button></td>
+            </td>
+        </tr>
+    </tfoot>
+</table>
