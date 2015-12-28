@@ -64,7 +64,7 @@ class LocalStorage {
 
     createAccountModel(jsonObject, AccountModel) {
         return new AccountModel(jsonObject.name, 
-                                    jsonObject.netRate,
+                                    jsonObject.expectedRate,
                                     jsonObject.id,
                                     (jsonObject.constraints || []).map(function(constraint) {
                                         return {
@@ -73,7 +73,8 @@ class LocalStorage {
                                             maxValue: ko.observable(constraint.maxValue),
                                         }
                                     }),
-                                    jsonObject.isEnabled);
+                                    jsonObject.isEnabled,
+                                    jsonObject.risk || "Low");
 
     }
 

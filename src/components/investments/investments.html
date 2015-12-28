@@ -7,13 +7,11 @@
             <th>Per Month Investment</th>
             <th>Number of Months</th>
             <th>Total Invested</th>
-            <th>Future Value</th>
-            <th>ROI</th>
-            <th>ROI %</th>
+            <th>Expected Rate</th>
         </tr>
     </thead>
     <tbody data-bind="foreach: investments">
-        <tr>
+        <tr data-bind="css: { danger: account.risk() == 'High', warning: account.risk() == 'Medium' }">
             <td data-bind="text: name"></td>
             <td>
                 <editable-text params="text: initial"></editable-text>
@@ -29,9 +27,7 @@
                     <span data-bind="text: totalInvested" class="control-label"></span>
                 </div>
             </td>
-            <td data-bind="text: futureValue"></td>
-            <td data-bind="text: roi"></td>
-            <td data-bind="text: roiPc"></td>
+            <td><span data-bind="text: account.expectedRate"></span>%</td>
         </tr>
     </tbody>
     <tfoot>
@@ -41,8 +37,6 @@
             <td data-bind="text: totalPerMonth"></td>
             <td></td>
             <td data-bind="text: totalInvestment"></td>
-            <td data-bind="text: totalFutureValue"></td>
-            <td data-bind="text: totalRoi"></td>
-            <td data-bind="text: totalRoiPc"></td>
+            <td data-bind=""></td>
     </tfoot>
 </table>

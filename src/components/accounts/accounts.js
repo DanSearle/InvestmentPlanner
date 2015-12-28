@@ -9,9 +9,10 @@ class Accounts {
         this.accounts = ko.observableArray(store.getAccounts(AccountModel));
         this.newAccount = {
             name: ko.observable(),
-            netRate: ko.observable(0).extend({numeric: 2}),
+            expectedRate: ko.observable(0).extend({numeric: 2}),
         };
         this.deleteAccount = this.deleteAccount.bind(this);
+        this.risks = ko.observableArray(["Low", "Medium", "High"]);
     }
 
     deleteAccount(account) {
@@ -25,14 +26,14 @@ class Accounts {
 
     addAccount() {
         var store = new LocalStorage();
-        var newAccount = new AccountModel(this.newAccount.name(), this.newAccount.netRate());
+        var newAccount = new AccountModel(this.newAccount.name(), this.newAccount.expectedRate());
         this.accounts.push(newAccount);
         store.saveAccount(newAccount);
         var investment = new InvestmentModel(newAccount, 0, 0, 0);
         store.saveInvestment(investment);
         this.investments.push(investment);
         this.newAccount.name('');
-        this.newAccount.netRate(0);
+        this.newAccount.expectedRate(0);
     }
     
     dispose() {

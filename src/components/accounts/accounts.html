@@ -4,8 +4,9 @@
         <tr>
             <th>Enabled</th>
             <th>Account Name</th>
-            <th>Net Rate AER %</th>
+            <th>Expected Rate %</th>
             <th>Constraints</th>
+            <th>Risk</th>
             <th></th>
         </tr>
     </thead>
@@ -18,10 +19,13 @@
                 <editable-text params="text: name"></editable-text>
             </td>
             <td>
-                <editable-text params="text: netRate"></editable-text>
+                <editable-text params="text: expectedRate"></editable-text>
             </td>
             <td>
                 <constraints params="constraints: constraints"></constraints>
+            </td>
+            <td>
+                <select data-bind="options: $parent.risks, value: risk"></select>
             </td>
             <td>
                 <button class="btn btn-primary" data-bind="visible: isDirty, click: save"><i class="icon save"></i> Save</button>
@@ -36,9 +40,12 @@
                 <input data-bind="value: newAccount.name" class="form-control"></input>
             </td>
             <td>
-                <input data-bind="value: newAccount.netRate" class="form-control"></input>
+                <input data-bind="value: newAccount.expectedRate" class="form-control"></input>
             </td>
             <td></td>
+            <td>
+                <select data-bind="options: risks, value: newAccount.risk"></select>
+            </td>
             <td>
                 <button class="btn btn-primary" data-bind="click: addAccount"><i class="icon add"></i> Add</button></td>
             </td>
