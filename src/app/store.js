@@ -74,7 +74,8 @@ class LocalStorage {
                                         }
                                     }),
                                     jsonObject.isEnabled,
-                                    jsonObject.risk || "Low");
+                                    jsonObject.risk || "Low",
+                                    jsonObject.type || "Cash");
 
     }
 

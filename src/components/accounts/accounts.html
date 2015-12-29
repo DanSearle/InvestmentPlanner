@@ -7,6 +7,7 @@
             <th>Expected Rate %</th>
             <th>Constraints</th>
             <th>Risk</th>
+            <th>Type</th>
             <th></th>
         </tr>
     </thead>
@@ -28,6 +29,9 @@
                 <select data-bind="options: $parent.risks, value: risk"></select>
             </td>
             <td>
+                <select data-bind="options: $parent.types, value: type"></select>
+            </td>
+            <td>
                 <button class="btn btn-primary" data-bind="visible: isDirty, click: save"><i class="icon save"></i> Save</button>
                 <button class="btn btn-danger" data-bind="click: $parent.deleteAccount"><i class="icon delete"></i> Delete</button>
             </td>
@@ -45,6 +49,9 @@
             <td></td>
             <td>
                 <select data-bind="options: risks, value: newAccount.risk"></select>
+            </td>
+            <td>
+                <select data-bind="options: types, value: newAccount.type"></select>
             </td>
             <td>
                 <button class="btn btn-primary" data-bind="click: addAccount"><i class="icon add"></i> Add</button></td>

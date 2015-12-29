@@ -53,6 +53,95 @@ class Investments {
         this.totalRoiPc = ko.computed(function() {
             return roundTwo((this.totalRoi()/this.totalInvestment())*100);
         }.bind(this));
+
+        var self = this;
+        this.totalExpectedPrincipleReturn = ko.computed(function() {
+            return roundTwo(self.investments().map(function(item) {
+                return item.account.expectedRate() * (item.initial()/self.totalInitialInvestment());
+            }).reduce(function(one, two) {
+                return (one || 0) + two;
+            }));
+        });
+        this.totalExpectedMonthlyReturn = ko.computed(function() {
+            return roundTwo(self.investments().map(function(item) {
+                return item.account.expectedRate() * (item.perMonth()/self.totalPerMonth());
+            }).reduce(function(one, two) {
+                return (one || 0) + two;
+            }));
+        });
+        this.totalExpectedTotalReturn = ko.computed(function() {
+            return roundTwo(self.investments().map(function(item) {
+                return item.account.expectedRate() * (item.totalInvested()/self.totalInvestment());
+            }).reduce(function(one, two) {
+                return (one || 0) + two;
+            }));
+        });
+
+        var getInitialRisk = function(risk) {
+            return roundTwo((ko.utils.arrayFilter(self.investments(), function(item) {
+                return item.account.risk() == risk;
+            }).map(function(item) {
+                return item.initial()
+            }).reduce(function(one, two) {
+                return one + two;
+            }, 0)));
+        };
+        var getMonthlyRisk = function(risk) {
+            return roundTwo((ko.utils.arrayFilter(self.investments(), function(item) {
+                return item.account.risk() == risk;
+            }).map(function(item) {
+                return item.perMonth()
+            }).reduce(function(one, two) {
+                return one + two;
+            }, 0)));
+        };
+        var getInitialType= function(type) {
+            return roundTwo((ko.utils.arrayFilter(self.investments(), function(item) {
+                return item.account.type() == type;
+            }).map(function(item) {
+                return item.initial()
+            }).reduce(function(one, two) {
+                return one + two;
+            }, 0)));
+        };
+        var getMonthlyType = function(type) {
+            return roundTwo((ko.utils.arrayFilter(self.investments(), function(item) {
+                return item.account.type() == type;
+            }).map(function(item) {
+                return item.perMonth()
+            }).reduce(function(one, two) {
+                return one + two;
+            }, 0)));
+        };
+
+        this.riskStats = ko.computed(function() {
+            return ["Low", "Medium", "High"].map(function(item) {
+                var initialValue = getInitialRisk(item);
+                var monthlyValue = getMonthlyRisk(item);
+                return {risk: item,
+                        initialPercent: roundTwo((initialValue/self.totalInitialInvestment())* 100),
+                        initialValue: initialValue,
+                        monthlyPercent: roundTwo((monthlyValue/self.totalPerMonth())* 100),
+                        monthlyValue: monthlyValue
+                }
+            });
+        });
+        this.typeStats = ko.computed(function() {
+            return ["Cash", "Bond", "Stock"].map(function(item) {
+                var initialValue = getInitialType(item);
+                var monthlyValue = getMonthlyType(item);
+                return {type: item,
+                        initialPercent: roundTwo((initialValue/self.totalInitialInvestment())*100),
+                        initialValue: initialValue,
+                        monthlyPercent: roundTwo((monthlyValue/self.totalPerMonth())* 100),
+                        monthlyValue: monthlyValue
+                        };
+            })
+                /*{type: "Cash", initialPercent: getInitialTypePercent("Cash"), monthlyPercent: roundTwo((getMonthlyType("Cash")/self.totalPerMonth())*100)},
+                {type: "Bond", initialPercent: getInitialTypePercent("Bond"), monthlyPercent: getMonthlyTypePercent("Bond")},
+                {type: "Stock", initialPercent: getInitialTypePercent("Stock"), monthlyPercent: getMonthlyTypePercent("Stock")}
+            ];*/
+        });
         this.optimise();
     }
     
