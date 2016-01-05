@@ -115,7 +115,7 @@ class Investments {
         };
 
         this.riskStats = ko.computed(function() {
-            return ["Low", "Medium", "High"].map(function(item) {
+            return [1,2,3,4,5,6,7].map(function(item) {
                 var initialValue = getInitialRisk(item);
                 var monthlyValue = getMonthlyRisk(item);
                 return {risk: item,

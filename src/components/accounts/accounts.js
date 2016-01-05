@@ -14,7 +14,7 @@ class Accounts {
             type: ko.observable()
         };
         this.deleteAccount = this.deleteAccount.bind(this);
-        this.risks = ko.observableArray(["Low", "Medium", "High"]);
+        this.risks = ko.observableArray([1,2,3,4,5,6,7]);
         this.types = ko.observableArray(["Cash", "Bond", "Stock"]);
     }
 

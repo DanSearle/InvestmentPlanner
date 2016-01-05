@@ -2,7 +2,7 @@ import ko from 'knockout';
 import LocalStorage from 'app/store';
 
 class AccountModel {
-    constructor(name, expectedRate, id, constraints = [], isEnabled = true, risk = "Low", type = "Cash") {
+    constructor(name, expectedRate, id, constraints = [], isEnabled = true, risk = 1, type = "Cash") {
         this.id = id;
         this.name = ko.observable(name);
         this.expectedRate = ko.observable(expectedRate).extend({numeric: 2});
