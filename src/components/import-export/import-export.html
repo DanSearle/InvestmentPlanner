@@ -1,0 +1,16 @@
+<h2>Import Export</h2>
+<div class="panel panel-default">
+    <div class="panel-heading">Import</div>
+    <div class="panel-body">
+        <textarea class="form-control" data-bind="value: importData"></textarea>
+    </div>
+    <div class="panel-footer">
+        <button class="btn btn-primary" data-bind="click: runImport">Import</button>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">Current Data</div>
+    <div class="panel-body">
+        <pre data-bind="text: storage"></pre>
+    </div>
+</div>

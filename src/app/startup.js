@@ -22,6 +22,8 @@ ko.components.register('investments', { require: 'components/investments/investm
 
 ko.components.register('constraints', { require: 'components/constraints/constraints' });
 
+ko.components.register('import-export', { require: 'components/import-export/import-export' });
+
 // [Scaffolded component registrations will be inserted here. To retain this feature, don't remove this comment.]
 
 // Start the application

@@ -36,7 +36,8 @@ var routerInstance = new Router({
         { url: '',          params: { page: 'home-page' } },
         { url: 'about',     params: { page: 'about-page' } },
         { url: 'accounts',  params: { page: 'accounts' } },
-        { url: 'investments',  params: { page: 'investments' } }
+        { url: 'investments',  params: { page: 'investments' } },
+        { url: 'import-export',  params: { page: 'import-export' } }
     ]
 });
 
